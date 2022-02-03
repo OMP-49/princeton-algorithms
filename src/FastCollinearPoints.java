@@ -1,11 +1,16 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FastCollinearPoints {
     private ArrayList<LineSegment> lineSegments;
 
-    public FastCollinearPoints(Point[] points) {
+    public FastCollinearPoints(Point[] points1) {
+
+        Point[] points = Arrays.copyOf(points1, points1.length);
         lineSegments = new ArrayList<>();
+        ArrayList<String> set = new ArrayList<String>();
 
         if (points == null) {
             throw new IllegalArgumentException();
@@ -19,7 +24,7 @@ public class FastCollinearPoints {
         Arrays.sort(points);
 
         for (int i = 1; i < points.length; i++) {
-            if (points[i] == points[i - 1]) {
+            if (points[i].compareTo(points[i - 1]) == 0) {
                 throw new IllegalArgumentException();
             }
         }
@@ -45,7 +50,8 @@ public class FastCollinearPoints {
                 } else {
                     if (count > 3) {
                         LineSegment line = new LineSegment(start, end);
-                        if (!lineSegments.contains(line)) {
+                        if (!set.contains(line.toString())) {
+                            set.add(line.toString());
                             lineSegments.add(line);
                         }
                     }
@@ -63,7 +69,8 @@ public class FastCollinearPoints {
             }
             if (count > 3) {
                 LineSegment line = new LineSegment(start, end);
-                if (!lineSegments.contains(line)) {
+                if (!set.contains(line.toString())) {
+                    set.add(line.toString());
                     lineSegments.add(line);
                 }
 
